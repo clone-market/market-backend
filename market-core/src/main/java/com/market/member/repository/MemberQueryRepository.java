@@ -1,4 +1,4 @@
-package com.market.member.domain;
+package com.market.member.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;

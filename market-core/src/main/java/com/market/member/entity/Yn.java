@@ -1,13 +1,14 @@
-package com.market.member.domain;
+package com.market.member.entity;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Gender {
-    M("남성"),
-    F("여성");
+public enum Yn {
+    Y("수락"),
+    N("거부");
 
     private String title;
 }

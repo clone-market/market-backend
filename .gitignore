@@ -4,3 +4,5 @@ market-core/build
 market-common/build
 market-api/build
 market-core/src/main/generated
+
+market-core/src/test/resources/application-dev.yml
