@@ -1,6 +1,7 @@
 package com.market.member.entity;
 
 import com.market.common.domain.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @EqualsAndHashCode(of = "id", callSuper = false)
-@Getter @NoArgsConstructor
+@Getter @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Point extends BaseTimeEntity {
 
     @Id
@@ -22,8 +23,8 @@ public class Point extends BaseTimeEntity {
     private Long id;
 
     @NotNull
-    private int accumulatedPoint;
+    private int accumulatedPoint = 0;
 
     @NotNull
-    private int currentPoint;
+    private int currentPoint = 0;
 }

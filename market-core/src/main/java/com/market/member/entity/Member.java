@@ -1,6 +1,7 @@
 package com.market.member.entity;
 
 import com.market.common.domain.BaseTimeEntity;
+import com.market.member.dto.MemberParam;
 import lombok.*;
 
 import javax.persistence.*;
@@ -54,13 +55,12 @@ public class Member extends BaseTimeEntity {
     private Point point;
 
     @NotNull
-    @OneToOne(fetch = LAZY, optional = false)
+    @OneToOne(fetch = LAZY)
     private MemberGrade grade;
-
 
     @Builder
     public Member(Long id, String username, String password, String name, String email, String phoneNumber,
-                  Gender gender, LocalDateTime birthDay, Yn SmsYn, Yn WebYn) {
+                  Gender gender, LocalDateTime birthDay, Yn SmsYn, Yn WebYn, Point point, MemberGrade grade) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -71,5 +71,24 @@ public class Member extends BaseTimeEntity {
         this.birthDay = birthDay;
         this.SmsYn = SmsYn;
         this.WebYn = WebYn;
+        this.point = point;
+        this.grade = grade;
+    }
+
+    public static Member createMember(MemberParam memberParam) {
+        Member member = new Member();
+        member.username = memberParam.getUsername();
+        member.password = memberParam.getPassword();
+        member.name = memberParam.getName();
+        member.email = memberParam.getEmail();
+        member.phoneNumber = memberParam.getPhoneNumber();
+        member.gender = memberParam.getGender();
+        member.birthDay = memberParam.getBirthDay();
+        member.SmsYn = memberParam.getSmsYn();
+        member.WebYn = memberParam.getWebYn();
+        member.point = new Point();
+        member.grade = memberParam.getMemberGrade();
+
+        return member;
     }
 }

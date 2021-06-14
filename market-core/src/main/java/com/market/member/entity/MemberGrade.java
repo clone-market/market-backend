@@ -28,4 +28,9 @@ public class MemberGrade extends BaseTimeEntity {
     //단위: %
     @NotNull
     private double accrualRate;
+
+    public MemberGrade(@NotNull String name, @NotNull double accrualRate) {
+        this.name = name;
+        this.accrualRate = accrualRate;
+    }
 }
