@@ -1,13 +1,13 @@
 package com.market.member.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-@AllArgsConstructor
 @Getter
+@RequiredArgsConstructor
 public enum Gender {
     M("남성"),
     F("여성");
 
-    private String title;
+    private final String title;
 }

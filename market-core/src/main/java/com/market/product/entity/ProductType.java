@@ -1,6 +1,14 @@
 package com.market.product.entity;
 
-public enum ProductType {
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-    REVIEW, QUESTION
+@Getter
+@RequiredArgsConstructor
+public enum ProductType {
+    REFRIGERATED("냉장"),
+    FROZEN("냉동"),
+    ROOM("상온");
+
+    private final String title;
 }
