@@ -37,7 +37,7 @@ public class MemberSignUpValidator implements Validator {
         }
 
         if (!memberService.isValidatedEmail(memberSignUpParam.getEmail())) {
-            errors.rejectValue("email", "invalid.email", "이메일인증 시간이 만료되었습니다.");
+            errors.rejectValue("email", "invalid.email", "이메일인증을 하지 않았거나 시간이 만료되었습니다.");
         }
     }
 }

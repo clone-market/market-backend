@@ -9,7 +9,11 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-cache'
     compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.3'
 
+    //commons-lang
     implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.0'
+
+    //p6spy
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
 
     compile("com.querydsl:querydsl-core")
     compile("com.querydsl:querydsl-jpa")

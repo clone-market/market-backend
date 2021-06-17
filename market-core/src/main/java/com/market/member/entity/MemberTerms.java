@@ -2,11 +2,10 @@ package com.market.member.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+
+import static javax.persistence.EnumType.STRING;
 
 @Entity
 @EqualsAndHashCode(of = "id", callSuper = false)
@@ -18,21 +17,27 @@ public class MemberTerms {
     private Long id;
 
     @NotNull
+    @Enumerated(STRING)
     private Yn agreeYn;
 
     @NotNull
+    @Enumerated(STRING)
     private Yn consentReqYn;
 
     @NotNull
+    @Enumerated(STRING)
     private Yn fourteenYn;
 
     @NotNull
+    @Enumerated(STRING)
     private Yn consentOptYn;
 
     @NotNull
+    @Enumerated(STRING)
     private Yn smsYn;
 
     @NotNull
+    @Enumerated(STRING)
     private Yn mailYn;
 
     @Builder

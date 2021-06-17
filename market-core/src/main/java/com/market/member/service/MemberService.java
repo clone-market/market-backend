@@ -3,10 +3,7 @@ package com.market.member.service;
 import com.market.member.dto.AddressCreationParam;
 import com.market.member.dto.MemberCreationParam;
 import com.market.member.dto.TermsCreationParam;
-import com.market.member.entity.Address;
-import com.market.member.entity.Member;
-import com.market.member.entity.MemberGrade;
-import com.market.member.entity.MemberTerms;
+import com.market.member.entity.*;
 import com.market.member.repository.AddressRepository;
 import com.market.member.repository.MemberGradeRepository;
 import com.market.member.repository.MemberRepository;
@@ -40,7 +37,7 @@ public class MemberService {
     private static final long EXPIRATION_MINUTES = 3;
 
 
-    // TODO: 2021-06-17[양동혁] 제거
+    // TODO: 2021-06-17[양동혁] test beforeEach로 이동
     @Transactional
     @PostConstruct
     public void initDb() {
@@ -49,7 +46,9 @@ public class MemberService {
 
     @Transactional
     public Long signUp(MemberCreationParam memberCreationParam) {
-        Member member = createMember(memberCreationParam, getNormalGrade(), createMemberTerms(memberCreationParam.getTermsCreationParam()));
+        Member member = createMember(memberCreationParam,
+                getNormalGrade(), createMemberTerms(memberCreationParam.getTermsCreationParam()));
+
         createAddress(member, memberCreationParam.getAddressCreationParam());
         return member.getId();
     }
@@ -90,8 +89,13 @@ public class MemberService {
                 .build());
     }
 
+    // TODO: 2021-06-17[양동혁] 패스워드 암호화
     private Member createMember(MemberCreationParam memberCreationParam, MemberGrade grade, MemberTerms terms) {
-        // TODO: 2021-06-17[양동혁] 패스워드 암호화
+        if (terms.getConsentOptYn() == Yn.N) {
+            memberCreationParam.setBirthday(LocalDateTime.of(1900, 1, 1, 0 ,0));
+            memberCreationParam.setGender(Gender.N);
+        }
+
         Member member = Member.builder()
                 .username(memberCreationParam.getUsername())
                 .password(memberCreationParam.getPassword())
