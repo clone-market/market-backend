@@ -1,6 +1,7 @@
 package com.market.member.entity;
 
 import com.market.common.domain.BaseTimeEntity;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -42,4 +43,16 @@ public class Address extends BaseTimeEntity {
 
     @ManyToOne(fetch = LAZY)
     private Member member;
+
+    @Builder
+    public Address(@NotNull String zipCode, @NotNull String streetNameAddress,
+                   @NotNull String lotNumberAddress, @NotNull String detailedAddress,
+                   @NotNull boolean isBasicAddress, Member member) {
+        this.zipCode = zipCode;
+        this.streetNameAddress = streetNameAddress;
+        this.lotNumberAddress = lotNumberAddress;
+        this.detailedAddress = detailedAddress;
+        this.isBasicAddress = isBasicAddress;
+        this.member = member;
+    }
 }
