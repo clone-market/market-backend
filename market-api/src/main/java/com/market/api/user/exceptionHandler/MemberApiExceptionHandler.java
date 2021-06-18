@@ -16,9 +16,6 @@ import javax.mail.MessagingException;
 @RestControllerAdvice(basePackageClasses = MemberController.class)
 public class MemberApiExceptionHandler {
 
-    public static void main(String[] args) {
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorParam> handleValidationException(MethodArgumentNotValidException exception) {
         ErrorParam errorParam = new ErrorParam("입력값이 유효하지 않습니다.");
