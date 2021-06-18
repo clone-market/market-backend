@@ -1,4 +1,4 @@
-package com.market.api.exceptionHandler;
+package com.market.api.user.exceptionHandler;
 
 import lombok.Data;
 

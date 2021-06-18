@@ -1,6 +1,6 @@
 package com.market.api.user.validator;
 
-import com.market.api.user.dto.MemberSignUpParam;
+import com.market.api.user.dto.signUp.MemberSignUpParam;
 import com.market.member.repository.MemberRepository;
 import com.market.member.service.MemberService;
 import lombok.RequiredArgsConstructor;

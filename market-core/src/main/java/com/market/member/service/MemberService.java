@@ -1,5 +1,7 @@
 package com.market.member.service;
 
+import com.market.mail.dto.EmailMessageParam;
+import com.market.mail.service.EmailService;
 import com.market.member.dto.AddressCreationParam;
 import com.market.member.dto.MemberCreationParam;
 import com.market.member.dto.TermsCreationParam;
@@ -15,6 +17,8 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
@@ -26,11 +30,14 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 public class MemberService {
 
+    private final EmailService emailService;
+
     private final MemberRepository memberRepository;
     private final AddressRepository addressRepository;
     private final MemberGradeRepository memberGradeRepository;
 
     private final CacheManager cacheManager;
+    private final TemplateEngine templateEngine;
 
     private static final String NORMAL_GRADE = "normal";
     private static final String CACHE_NAME = "memberAuth";
@@ -55,10 +62,18 @@ public class MemberService {
 
     public String generateAuthCode(String email) {
         String authCode = RandomStringUtils.randomNumeric(6);
-        // TODO: 2021-06-17[양동혁] 콘솔출력, 이메일전송으로 분리
-        log.info(authCode);
         getCache().put(email, new AuthCode(authCode, LocalDateTime.now()));
+        emailService.send(createEmailMessage(authCode, email));
         return authCode;
+    }
+
+    private EmailMessageParam createEmailMessage(String authCode, String email) {
+        Context context = new Context();
+        context.setVariable("authCode", authCode);
+        context.setVariable("message", "이메일 인증번호 입니다.");
+
+        String message = templateEngine.process("mail/email-form", context);
+        return new EmailMessageParam(email, "kurly-clone, 이메일 인증", message);
     }
 
     /**
@@ -100,7 +115,7 @@ public class MemberService {
                 .username(memberCreationParam.getUsername())
                 .password(memberCreationParam.getPassword())
                 .name(memberCreationParam.getName())
-                .email(memberCreationParam.getPhoneNumber())
+                .email(memberCreationParam.getEmail())
                 .phoneNumber(memberCreationParam.getPhoneNumber())
                 .gender(memberCreationParam.getGender())
                 .birthDay(memberCreationParam.getBirthday())

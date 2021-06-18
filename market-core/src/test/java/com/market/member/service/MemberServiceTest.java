@@ -1,5 +1,7 @@
 package com.market.member.service;
 
+import com.market.mail.dto.EmailMessageParam;
+import com.market.mail.service.EmailService;
 import com.market.member.dto.AddressCreationParam;
 import com.market.member.dto.MemberCreationParam;
 import com.market.member.dto.TermsCreationParam;
@@ -11,8 +13,10 @@ import com.market.member.repository.AddressRepository;
 import com.market.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +25,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 
 @Rollback(value = false)
 @Transactional
@@ -32,6 +37,9 @@ class MemberServiceTest {
 
     @Autowired
     MemberRepository memberRepository;
+
+    @MockBean
+    EmailService emailService;
 
     @Autowired
     AddressRepository addressRepository;
@@ -62,6 +70,7 @@ class MemberServiceTest {
         assertThat(member.getGrade().getName()).isEqualTo(NORMAL_GRADE);
         assertThat(member.getPoint().getCurrentPoint()).isEqualTo(0);
         assertThat(member.getTerms()).isNotNull();
+        BDDMockito.then(emailService).should().send(any(EmailMessageParam.class));
     }
 
     @Test

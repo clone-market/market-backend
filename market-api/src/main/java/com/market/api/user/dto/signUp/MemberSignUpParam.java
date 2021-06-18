@@ -1,4 +1,4 @@
-package com.market.api.user.dto;
+package com.market.api.user.dto.signUp;
 
 import com.market.member.dto.AddressCreationParam;
 import com.market.member.dto.MemberCreationParam;

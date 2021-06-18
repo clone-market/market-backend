@@ -1,15 +1,14 @@
 package com.market.api.user;
 
-import com.market.api.user.dto.AuthCodeParam;
-import com.market.api.user.dto.DuplicationCheckParam;
-import com.market.api.user.dto.MemberEmailParam;
-import com.market.api.user.dto.MemberSignUpParam;
+import com.market.api.user.dto.signUp.AuthCodeParam;
+import com.market.api.user.dto.signUp.DuplicationCheckParam;
+import com.market.api.user.dto.signUp.MemberEmailParam;
+import com.market.api.user.dto.signUp.MemberSignUpParam;
 import com.market.api.user.validator.MemberSignUpValidator;
 import com.market.member.repository.MemberRepository;
 import com.market.member.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +35,7 @@ public class MemberController {
     @PostMapping("/signUp")
     public ResponseEntity<String> SignUp(@Valid @RequestBody MemberSignUpParam memberSignUpParam) {
         memberService.signUp(memberSignUpParam.toServiceDto());
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.ok("가입완료");
     }
 
     @GetMapping("/signUp/auth")

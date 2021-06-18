@@ -1,7 +1,6 @@
-package com.market.api.user.dto;
+package com.market.api.user.dto.signUp;
 
 import lombok.Data;
-import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
 

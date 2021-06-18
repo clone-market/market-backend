@@ -6,3 +6,4 @@ market-api/build
 market-core/src/main/generated
 
 market-core/src/test/resources/application.yml
+market-api/src/main/resources/application-dev.yml

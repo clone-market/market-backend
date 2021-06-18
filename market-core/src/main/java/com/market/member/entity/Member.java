@@ -55,7 +55,6 @@ public class Member extends BaseTimeEntity {
     @NotNull
     @OneToOne(fetch = LAZY, cascade = ALL)
     private MemberTerms terms;
-    // TODO: 2021-06-17[양동혁] 테스트 수정
 
     @Builder
     public Member(@NotNull String username, @NotNull String password, @NotNull String name,

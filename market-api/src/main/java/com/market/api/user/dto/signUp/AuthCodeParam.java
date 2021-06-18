@@ -1,4 +1,4 @@
-package com.market.api.user.dto;
+package com.market.api.user.dto.signUp;
 
 import lombok.Data;
 
