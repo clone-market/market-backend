@@ -24,6 +24,10 @@ public class MemberSignUpValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         MemberSignUpParam memberSignUpParam = (MemberSignUpParam) target;
+        if (!memberService.isValidatedEmail(memberSignUpParam.getEmail())) {
+            errors.rejectValue("email", "invalid.email", "이메일인증을 하지 않았거나 시간이 만료되었습니다.");
+        }
+
         if (memberRepository.findByUsername(memberSignUpParam.getUsername()).isPresent()) {
             errors.rejectValue("username", "invalid.username", "이미 사용중인 아이디입니다.");
         }
@@ -34,10 +38,6 @@ public class MemberSignUpValidator implements Validator {
 
         if (!memberSignUpParam.getPassword().equals(memberSignUpParam.getPasswordChk())) {
             errors.rejectValue("password", "invalid.password", "비밀번호가 일치하지 않습니다.");
-        }
-
-        if (!memberService.isValidatedEmail(memberSignUpParam.getEmail())) {
-            errors.rejectValue("email", "invalid.email", "이메일인증을 하지 않았거나 시간이 만료되었습니다.");
         }
     }
 }

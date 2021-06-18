@@ -71,4 +71,8 @@ public class Member extends BaseTimeEntity {
         this.birthDay = birthDay;
         this.point = new Point();
     }
+
+    public void changePassword(String password) {
+        this.password = password;
+    }
 }

@@ -23,6 +23,7 @@ import org.thymeleaf.context.Context;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -60,20 +61,26 @@ public class MemberService {
         return member.getId();
     }
 
+
+    @Transactional
+    public void changePassword(String email, String password) {
+        Optional<Member> optionalMember = memberRepository.findByEmail(email);
+        if (optionalMember.isEmpty()) {
+            throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
+        }
+        if (!isValidatedEmail(email)) {
+            throw new IllegalStateException("이메일 인증을 하지 않았습니다.");
+        }
+        Member member = optionalMember.get();
+        // TODO: 2021-06-17[양동혁] 패스워드 암호화
+        member.changePassword(password);
+    }
+
     public String generateAuthCode(String email) {
         String authCode = RandomStringUtils.randomNumeric(6);
         getCache().put(email, new AuthCode(authCode, LocalDateTime.now()));
         emailService.send(createEmailMessage(authCode, email));
         return authCode;
-    }
-
-    private EmailMessageParam createEmailMessage(String authCode, String email) {
-        Context context = new Context();
-        context.setVariable("authCode", authCode);
-        context.setVariable("message", "이메일 인증번호 입니다.");
-
-        String message = templateEngine.process("mail/email-form", context);
-        return new EmailMessageParam(email, "kurly-clone, 이메일 인증", message);
     }
 
     /**
@@ -91,6 +98,15 @@ public class MemberService {
     public boolean isValidatedEmail(String email) {
         AuthCode authCode = getCache().get(email, AuthCode.class);
         return authCode != null && authCode.isValidated();
+    }
+
+    private EmailMessageParam createEmailMessage(String authCode, String email) {
+        Context context = new Context();
+        context.setVariable("authCode", authCode);
+        context.setVariable("message", "이메일 인증번호 입니다.");
+
+        String message = templateEngine.process("mail/email-form", context);
+        return new EmailMessageParam(email, "kurly-clone, 이메일 인증", message);
     }
 
     private void createAddress(Member member, AddressCreationParam addressCreationParam) {

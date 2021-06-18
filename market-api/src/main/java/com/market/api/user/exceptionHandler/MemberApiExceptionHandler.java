@@ -44,4 +44,10 @@ public class MemberApiExceptionHandler {
         log.error("메일 전송실패: {}", exception.getCause().getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
+
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity<ErrorParam> handlerIllegalException(RuntimeException exception) {
+        ErrorParam errorParam = new ErrorParam(exception.getMessage());
+        return ResponseEntity.badRequest().body(errorParam);
+    }
 }
