@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Optional;
@@ -45,7 +44,6 @@ public class MemberService {
     private static final long EXPIRATION_MINUTES = 3;
 
 
-    // TODO: 2021-06-17[양동혁] test beforeEach로 이동
     @Transactional
 //    @PostConstruct
     public void initDb() {

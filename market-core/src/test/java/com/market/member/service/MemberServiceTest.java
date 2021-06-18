@@ -5,12 +5,11 @@ import com.market.mail.service.EmailService;
 import com.market.member.dto.AddressCreationParam;
 import com.market.member.dto.MemberCreationParam;
 import com.market.member.dto.TermsCreationParam;
-import com.market.member.entity.Address;
-import com.market.member.entity.Gender;
-import com.market.member.entity.Member;
-import com.market.member.entity.Yn;
+import com.market.member.entity.*;
 import com.market.member.repository.AddressRepository;
+import com.market.member.repository.MemberGradeRepository;
 import com.market.member.repository.MemberRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.BDDMockito;
@@ -36,15 +35,23 @@ class MemberServiceTest {
     @Autowired
     MemberRepository memberRepository;
 
-    @MockBean
-    EmailService emailService;
-
     @Autowired
     AddressRepository addressRepository;
+
+    @Autowired
+    MemberGradeRepository memberGradeRepository;
+
+    @MockBean
+    EmailService emailService;
 
     private final String EMAIL = "user@email.com";
 
     private static final String NORMAL_GRADE = "normal";
+
+    @BeforeEach
+    public void initDb() {
+        memberGradeRepository.save(new MemberGrade(NORMAL_GRADE, 0));
+    }
 
     @Test
     @DisplayName("회원가입")

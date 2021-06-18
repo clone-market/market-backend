@@ -1,7 +1,6 @@
 package com.market.member.entity;
 
 import com.market.common.domain.BaseTimeEntity;
-import com.market.member.dto.MemberCreationParam;
 import lombok.*;
 
 import javax.persistence.*;

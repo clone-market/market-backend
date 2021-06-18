@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import java.rmi.ServerError;
 
 @Slf4j
 @Service

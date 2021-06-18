@@ -1,9 +1,8 @@
 .gradle
 .idea
-market-core/build
-market-common/build
-market-api/build
-market-core/src/main/generated
 
-market-core/src/test/resources/application.yml
-market-api/src/main/resources/application-dev.yml
+**/build/
+**/out/
+**/generated/
+
+application-dev.yml
