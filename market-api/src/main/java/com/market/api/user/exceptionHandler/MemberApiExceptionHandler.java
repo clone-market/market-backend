@@ -1,6 +1,7 @@
 package com.market.api.user.exceptionHandler;
 
 import com.market.api.user.MemberController;
+import com.market.member.exception.EnumValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +34,6 @@ public class MemberApiExceptionHandler {
         return ResponseEntity.badRequest().body(errorParam);
     }
 
-    @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorParam> handleValidationException(HttpMessageNotReadableException exception) {
-        ErrorParam errorParam = new ErrorParam("입력값이 없거나 형식이 올바르지 않습니다.");
-        return ResponseEntity.badRequest().body(errorParam);
-    }
-
     @ExceptionHandler(MessagingException.class)
     public ResponseEntity<Void> handleMessagingException(MessagingException exception) {
         log.error("메일 전송실패: {}", exception.getCause().getMessage());
@@ -46,8 +41,14 @@ public class MemberApiExceptionHandler {
     }
 
     @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
-    public ResponseEntity<ErrorParam> handlerIllegalException(RuntimeException exception) {
+    public ResponseEntity<ErrorParam> handleIllegalException(RuntimeException exception) {
         ErrorParam errorParam = new ErrorParam(exception.getMessage());
+        return ResponseEntity.badRequest().body(errorParam);
+    }
+
+    @ExceptionHandler(EnumValidationException.class)
+    public ResponseEntity<ErrorParam> handleEnumValidationException(EnumValidationException exception) {
+        ErrorParam errorParam = new ErrorParam(String.format("'%s' 는 올바르지 동의형식입니다.", exception.getValue()));
         return ResponseEntity.badRequest().body(errorParam);
     }
 }

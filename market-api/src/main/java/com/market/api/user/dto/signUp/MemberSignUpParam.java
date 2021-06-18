@@ -6,6 +6,7 @@ import com.market.member.dto.TermsCreationParam;
 import com.market.member.entity.Gender;
 import com.market.member.entity.Yn;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -46,11 +47,11 @@ public class MemberSignUpParam {
     @NotBlank(message = "상세 주소를 입력하세요.")
     private String detailedAddress;
 
-    // TODO: 2021-06-17[양동혁] 잘못된 값 왔을 때 에러 어떻게옴? 값 없을때 json 처리
     @NotNull
-    private Gender gender = Gender.N;
+    private Gender gender;
 
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime birthday = LocalDateTime.of(1900, 1, 1, 0 ,0);
     
     @NotNull(message = "미동의시 회원가입 할 수 없습니다")

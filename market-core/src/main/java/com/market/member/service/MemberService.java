@@ -47,13 +47,16 @@ public class MemberService {
 
     // TODO: 2021-06-17[양동혁] test beforeEach로 이동
     @Transactional
-    @PostConstruct
+//    @PostConstruct
     public void initDb() {
         memberGradeRepository.save(new MemberGrade(NORMAL_GRADE, 0));
     }
 
     @Transactional
     public Long signUp(MemberCreationParam memberCreationParam) {
+        if (memberRepository.findByEmail(memberCreationParam.getEmail()).isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
         Member member = createMember(memberCreationParam,
                 getNormalGrade(), createMemberTerms(memberCreationParam.getTermsCreationParam()));
 
