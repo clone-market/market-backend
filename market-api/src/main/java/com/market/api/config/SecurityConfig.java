@@ -25,7 +25,7 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String AUTHENTICATION_HEADER_NAME = "Authorization";
     public static final String AUTHENTICATION_URL = "/api/v2/user/signIn";
-    public static final String SIGN_IN_URL = "/api/v2/user/signUp";
+    public static final String SIGN_UP_URL = "/api/v2/user/signUp";
     public static final String API_ROOT_URL = "/api/v2/**";
 
     private final AuthenticationSuccessHandler successHandler;
@@ -60,15 +60,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return filter;
     }
     private JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter() throws Exception {
-        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(getpermitAllPathList(), API_ROOT_URL);
+        SkipPathRequestMatcher matcher = new SkipPathRequestMatcher(getPermitAllPathList(), API_ROOT_URL);
         JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(matcher, failureHandler, jwtUtil);
         filter.setAuthenticationManager(this.authenticationManager());
         return filter;
     }
-    private List<String> getpermitAllPathList() {
+    private List<String> getPermitAllPathList() {
         return Arrays.asList(
                 AUTHENTICATION_URL,
-                SIGN_IN_URL
+                SIGN_UP_URL
         );
     }
 }
