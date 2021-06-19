@@ -1,9 +1,7 @@
 package com.market.factory;
 
-import com.market.member.entity.Member;
 import com.market.member.entity.MemberGrade;
 import com.market.member.repository.MemberGradeRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

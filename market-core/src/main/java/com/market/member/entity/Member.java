@@ -1,7 +1,6 @@
 package com.market.member.entity;
 
 import com.market.common.domain.BaseTimeEntity;
-import com.market.member.dto.MemberParam;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,18 +36,12 @@ public class Member extends BaseTimeEntity {
     @NotNull
     private String phoneNumber;
 
+    @NotNull
     @Enumerated(STRING)
     private Gender gender;
 
+    @NotNull
     private LocalDateTime birthDay;
-
-    @NotNull
-    @Column(name = "receive_ads_by_sms", nullable = false)
-    private Yn SmsYn;
-
-    @NotNull
-    @Column(name = "receive_ads_by_web", nullable = false)
-    private Yn WebYn;
 
     @NotNull
     @OneToOne(fetch = LAZY, cascade = ALL)
@@ -57,38 +50,28 @@ public class Member extends BaseTimeEntity {
     @NotNull
     @OneToOne(fetch = LAZY)
     private MemberGrade grade;
+    
+    @NotNull
+    @OneToOne(fetch = LAZY, cascade = ALL)
+    private MemberTerms terms;
 
     @Builder
-    public Member(Long id, String username, String password, String name, String email, String phoneNumber,
-                  Gender gender, LocalDateTime birthDay, Yn SmsYn, Yn WebYn, Point point, MemberGrade grade) {
-        this.id = id;
+    public Member(@NotNull String username, @NotNull String password, @NotNull String name,
+                  @NotNull String email, @NotNull String phoneNumber, @NotNull Gender gender,
+                  @NotNull MemberGrade grade, @NotNull MemberTerms terms, @NotNull LocalDateTime birthDay) {
         this.username = username;
         this.password = password;
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.gender = gender;
-        this.birthDay = birthDay;
-        this.SmsYn = SmsYn;
-        this.WebYn = WebYn;
-        this.point = point;
         this.grade = grade;
+        this.terms = terms;
+        this.birthDay = birthDay;
+        this.point = new Point();
     }
 
-    public static Member createMember(MemberParam memberParam) {
-        Member member = new Member();
-        member.username = memberParam.getUsername();
-        member.password = memberParam.getPassword();
-        member.name = memberParam.getName();
-        member.email = memberParam.getEmail();
-        member.phoneNumber = memberParam.getPhoneNumber();
-        member.gender = memberParam.getGender();
-        member.birthDay = memberParam.getBirthDay();
-        member.SmsYn = memberParam.getSmsYn();
-        member.WebYn = memberParam.getWebYn();
-        member.point = new Point();
-        member.grade = memberParam.getMemberGrade();
-
-        return member;
+    public void changePassword(String password) {
+        this.password = password;
     }
 }
