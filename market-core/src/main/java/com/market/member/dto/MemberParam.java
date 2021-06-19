@@ -2,7 +2,7 @@ package com.market.member.dto;
 
 import com.market.member.entity.Address;
 import com.market.member.entity.Gender;
-import com.market.member.entity.MemberGrade;
+import com.market.member.entity.Grade;
 import com.market.member.entity.MemberTerms;
 import lombok.Builder;
 import lombok.Data;
@@ -28,13 +28,13 @@ public class MemberParam {
 
     private Address address;
 
-    private MemberGrade memberGrade;
+    private Grade grade;
 
     private MemberTerms memberTerms;
 
     @Builder
     public MemberParam(String username, String password, String name, String email, String phoneNumber,
-                       Gender gender, LocalDateTime birthDay, Address address, MemberGrade memberGrade, MemberTerms memberTerms) {
+                       Gender gender, LocalDateTime birthDay, Address address, Grade grade, MemberTerms memberTerms) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -43,7 +43,7 @@ public class MemberParam {
         this.gender = gender;
         this.birthDay = birthDay;
         this.address = address;
-        this.memberGrade = memberGrade;
+        this.grade = grade;
         this.memberTerms = memberTerms;
     }
 }

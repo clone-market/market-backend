@@ -41,15 +41,15 @@ public class Member extends BaseTimeEntity {
     private Gender gender;
 
     @NotNull
+    @Enumerated(STRING)
+    private Grade grade;
+
+    @NotNull
     private LocalDateTime birthDay;
 
     @NotNull
     @OneToOne(fetch = LAZY, cascade = ALL)
     private Point point;
-
-    @NotNull
-    @OneToOne(fetch = LAZY)
-    private MemberGrade grade;
     
     @NotNull
     @OneToOne(fetch = LAZY, cascade = ALL)
@@ -58,7 +58,7 @@ public class Member extends BaseTimeEntity {
     @Builder
     public Member(@NotNull String username, @NotNull String password, @NotNull String name,
                   @NotNull String email, @NotNull String phoneNumber, @NotNull Gender gender,
-                  @NotNull MemberGrade grade, @NotNull MemberTerms terms, @NotNull LocalDateTime birthDay) {
+                  @NotNull Grade grade, @NotNull MemberTerms terms, @NotNull LocalDateTime birthDay) {
         this.username = username;
         this.password = password;
         this.name = name;
