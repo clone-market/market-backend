@@ -7,7 +7,6 @@ import com.market.member.dto.MemberCreationParam;
 import com.market.member.dto.TermsCreationParam;
 import com.market.member.entity.*;
 import com.market.member.repository.AddressRepository;
-import com.market.member.repository.MemberGradeRepository;
 import com.market.member.repository.MemberRepository;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -34,21 +33,12 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final AddressRepository addressRepository;
-    private final MemberGradeRepository memberGradeRepository;
 
     private final CacheManager cacheManager;
     private final TemplateEngine templateEngine;
 
-    private static final String NORMAL_GRADE = "normal";
     private static final String CACHE_NAME = "memberAuth";
     private static final long EXPIRATION_MINUTES = 3;
-
-
-    @Transactional
-//    @PostConstruct
-    public void initDb() {
-        memberGradeRepository.save(new MemberGrade(NORMAL_GRADE, 0));
-    }
 
     @Transactional
     public Long signUp(MemberCreationParam memberCreationParam) {
@@ -56,7 +46,7 @@ public class MemberService {
             throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
         }
         Member member = createMember(memberCreationParam,
-                getNormalGrade(), createMemberTerms(memberCreationParam.getTermsCreationParam()));
+                Grade.FREE, createMemberTerms(memberCreationParam.getTermsCreationParam()));
 
         createAddress(member, memberCreationParam.getAddressCreationParam());
         return member.getId();
@@ -122,7 +112,7 @@ public class MemberService {
     }
 
     // TODO: 2021-06-17[양동혁] 패스워드 암호화
-    private Member createMember(MemberCreationParam memberCreationParam, MemberGrade grade, MemberTerms terms) {
+    private Member createMember(MemberCreationParam memberCreationParam, Grade grade, MemberTerms terms) {
         if (terms.getConsentOptYn() == Yn.N) {
             memberCreationParam.setBirthday(LocalDateTime.of(1900, 1, 1, 0 ,0));
             memberCreationParam.setGender(Gender.N);
@@ -151,11 +141,6 @@ public class MemberService {
                 .smsYn(termsCreationParam.getSmsYn())
                 .fourteenYn(termsCreationParam.getFourteenYn())
                 .build();
-    }
-
-    private MemberGrade getNormalGrade() {
-        return memberGradeRepository.findByName(NORMAL_GRADE)
-                .orElseThrow(() -> new IllegalArgumentException(String.format("'%s'는 없는 등급입니다", NORMAL_GRADE)));
     }
 
     private Cache getCache() {

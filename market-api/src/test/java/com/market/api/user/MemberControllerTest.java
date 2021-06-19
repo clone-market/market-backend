@@ -4,13 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.market.mail.dto.EmailMessageParam;
 import com.market.mail.service.EmailService;
 import com.market.member.entity.Address;
+import com.market.member.entity.Grade;
 import com.market.member.entity.Member;
-import com.market.member.entity.MemberGrade;
 import com.market.member.repository.AddressRepository;
-import com.market.member.repository.MemberGradeRepository;
 import com.market.member.repository.MemberRepository;
 import com.market.member.service.MemberService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,10 +34,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 class MemberControllerTest {
-
-    @Autowired
-    MemberController memberController;
-
     @Autowired
     MemberService memberService;
 
@@ -48,9 +42,6 @@ class MemberControllerTest {
 
     @Autowired
     AddressRepository addressRepository;
-
-    @Autowired
-    MemberGradeRepository memberGradeRepository;
 
     @MockBean
     EmailService emailService;
@@ -62,13 +53,6 @@ class MemberControllerTest {
     ObjectMapper objectMapper;
 
     private final String EMAIL = "user@email.com";
-
-    private static final String NORMAL_GRADE = "normal";
-
-    @BeforeEach
-    public void initDb() {
-        memberGradeRepository.save(new MemberGrade(NORMAL_GRADE, 0));
-    }
 
     @Test
     @DisplayName("회원가입")
@@ -96,7 +80,7 @@ class MemberControllerTest {
 
         assertThat(addresses.size()).isEqualTo(1);
         assertThat(addresses.get(0).getMember()).isEqualTo(member);
-        assertThat(member.getGrade().getName()).isEqualTo(NORMAL_GRADE);
+        assertThat(member.getGrade()).isEqualTo(Grade.FREE);
         assertThat(member.getPoint().getCurrentPoint()).isEqualTo(0);
         assertThat(member.getTerms()).isNotNull();
         then(emailService).should().send(any(EmailMessageParam.class));
