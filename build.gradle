@@ -68,6 +68,10 @@ project(':market-api') {
 
     }
 }
+project(':market-common') {
+    bootJar { enabled = false }
+    jar { enabled = true }
+}
 project(':market-core') {
     bootJar { enabled = false }
     jar { enabled = true }
@@ -100,7 +104,7 @@ project(':market-core') {
     def generated = "src/main/generated"
 
     sourceSets {
-        main.java.srcDirs += [ generated ]
+        main.java.srcDirs += [generated]
     }
 
     tasks.withType(JavaCompile) {
