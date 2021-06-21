@@ -53,7 +53,6 @@ public class MemberController {
 
     @PostMapping({"/mailAuth"})
     public ResponseEntity<?> validateAuthCode(@Valid @RequestBody AuthCodeParam authCodeParam) {
-        // TODO: 2021-06-16[양동혁] JWT에서 이메일 가져오도록 변경
         if (memberService.validateAuthCode(authCodeParam.getEmail(), authCodeParam.getAuthCode())) {
             return ResponseEntity.ok().build();
         }
