@@ -71,14 +71,22 @@ project(':market-api') {
 project(':market-common') {
     bootJar { enabled = false }
     jar { enabled = true }
+
+    dependencies {
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
+    }
 }
 project(':market-core') {
     bootJar { enabled = false }
     jar { enabled = true }
 
     dependencies {
+        implementation project(':market-common')
+
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
         implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter-security'
         implementation 'org.springframework.boot:spring-boot-starter-mail'
         implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
         implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind'

@@ -24,9 +24,17 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public static final String AUTHENTICATION_HEADER_NAME = "Authorization";
+
+    public static final String API_ROOT_URL = "/api/v2/**";
+
+    //permitAll URL
     public static final String AUTHENTICATION_URL = "/api/v2/user/signIn";
     public static final String SIGN_UP_URL = "/api/v2/user/signUp";
-    public static final String API_ROOT_URL = "/api/v2/**";
+    public static final String SIGN_UP_CHECK_URL = "/api/v2/user/signUp/chk";
+    public static final String MAIL_AUTH_URL = "/api/v2/user/mailAuth";
+    public static final String FIND_ID__URL = "/api/v2/user/findId";
+    public static final String FIND_PASSWORD__URL = "/api/v2/user/findPwd";
+    public static final String CHANGE_PASSWORD__URL = "/api/v2/user/changePwd";
 
     private final AuthenticationSuccessHandler successHandler;
     private final AuthenticationFailureHandler failureHandler;
@@ -68,7 +76,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private List<String> getPermitAllPathList() {
         return Arrays.asList(
                 AUTHENTICATION_URL,
-                SIGN_UP_URL
+                SIGN_UP_URL,
+                SIGN_UP_CHECK_URL,
+                MAIL_AUTH_URL,
+                FIND_ID__URL,
+                FIND_PASSWORD__URL,
+                CHANGE_PASSWORD__URL
         );
     }
 }

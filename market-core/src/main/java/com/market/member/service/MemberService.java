@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.thymeleaf.TemplateEngine;
@@ -34,6 +35,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final AddressRepository addressRepository;
 
+    private final PasswordEncoder passwordEncoder;
     private final CacheManager cacheManager;
     private final TemplateEngine templateEngine;
 
@@ -63,8 +65,7 @@ public class MemberService {
             throw new IllegalStateException("이메일 인증을 하지 않았습니다.");
         }
         Member member = optionalMember.get();
-        // TODO: 2021-06-17[양동혁] 패스워드 암호화
-        member.changePassword(password);
+        member.changePassword(passwordEncoder.encode(password));
     }
 
     public String generateAuthCode(String email) {
@@ -111,7 +112,6 @@ public class MemberService {
                 .build());
     }
 
-    // TODO: 2021-06-17[양동혁] 패스워드 암호화
     private Member createMember(MemberCreationParam memberCreationParam, Grade grade, MemberTerms terms) {
         if (terms.getConsentOptYn() == Yn.N) {
             memberCreationParam.setBirthday(LocalDateTime.of(1900, 1, 1, 0 ,0));
@@ -120,7 +120,7 @@ public class MemberService {
 
         Member member = Member.builder()
                 .username(memberCreationParam.getUsername())
-                .password(memberCreationParam.getPassword())
+                .password(passwordEncoder.encode(memberCreationParam.getPassword()))
                 .name(memberCreationParam.getName())
                 .email(memberCreationParam.getEmail())
                 .phoneNumber(memberCreationParam.getPhoneNumber())
