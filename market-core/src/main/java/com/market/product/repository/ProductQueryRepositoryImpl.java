@@ -22,8 +22,7 @@ public class ProductQueryRepositoryImpl implements ProductQueryRepository {
                         product.name,
                         product.price,
                         product.discount.discountRate,
-                        product.shortDescription,
-                        product.views
+                        product.shortDescription
                 ))
                 .from(product)
                 .leftJoin(product.discount);

@@ -13,14 +13,12 @@ public class ProductResponseDto {
     private int price;
     private int discountRate;
     private String shortDescription;
-    private int views;
 
     @Builder
-    public ProductResponseDto(String productName, int price, int discountRate, String shortDescription, int views) {
+    public ProductResponseDto(String productName, int price, int discountRate, String shortDescription) {
         this.productName = productName;
         this.price = price;
         this.discountRate = discountRate;
         this.shortDescription = shortDescription;
-        this.views = views;
     }
 }
