@@ -1,6 +1,7 @@
 package com.market.product.entity;
 
 import com.market.common.domain.BaseTimeEntity;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,4 +32,12 @@ public class Category extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "parent", cascade = ALL, orphanRemoval = true)
     private List<Category> children = new ArrayList<>();
+
+    @Builder
+    public Category(Long id, @NotNull String name, Category parent, List<Category> children) {
+        this.id = id;
+        this.name = name;
+        this.parent = parent;
+        this.children = children;
+    }
 }
