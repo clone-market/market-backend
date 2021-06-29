@@ -37,6 +37,12 @@ public class Product extends BaseTimeEntity {
     private String shortDescription;
 
     @NotNull
+    private int views = 0;
+
+    @NotNull
+    private int goods = 0;
+
+    @NotNull
     private int price;
 
     @NotNull
@@ -57,12 +63,14 @@ public class Product extends BaseTimeEntity {
     private List<ProductBoard> productBoards;
 
     @Builder
-    public Product(Long id, String name, int stockQuantity, String thumbnailUrl, String shortDescription, int price, String description, ProductType productType, Discount discount, Category category, List<ProductBoard> productBoards) {
+    public Product(Long id, @NotNull String name, @NotNull int stockQuantity, @NotNull String thumbnailUrl, String shortDescription, @NotNull int views, @NotNull int goods, @NotNull int price, @NotNull String description, ProductType productType, Discount discount, @NotNull Category category, List<ProductBoard> productBoards) {
         this.id = id;
         this.name = name;
         this.stockQuantity = stockQuantity;
         this.thumbnailUrl = thumbnailUrl;
         this.shortDescription = shortDescription;
+        this.views = views;
+        this.goods = goods;
         this.price = price;
         this.description = description;
         this.productType = productType;
